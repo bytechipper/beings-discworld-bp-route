@@ -1,0 +1,19 @@
+name: Test and package
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua runtime
+        run: sudo apt-get update && sudo apt-get install -y liblua5.4-0
+      - name: Test runtime and reproducible archive
+        run: python3 -m unittest discover -s tests -v
+      - name: Build release archive
+        run: python3 scripts/build.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mallard-plugin
+          path: dist/*.mallardx

@@ -1,0 +1,4 @@
+dist/
+*.mallardx
+__pycache__/
+*.pyc
